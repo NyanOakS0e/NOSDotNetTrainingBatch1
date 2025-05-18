@@ -1,6 +1,6 @@
-using API_Start.Models;
-using API_Start.Services;
-using SQL_Services_Shared;
+using Microsoft.EntityFrameworkCore;
+using NOS_DreamDictionary_Database.Models;
+using NOS_DreamDictionary_WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,14 +10,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnect")));
 
-builder.Services.AddScoped<DapperService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ApiDbContext>();
+
+builder.Services.AddScoped<MigrationService>();
 
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
