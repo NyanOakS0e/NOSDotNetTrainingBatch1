@@ -1,0 +1,6 @@
+@MiniWallet.WebAPI_HostAddress = http://localhost:5286
+
+GET {{MiniWallet.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
