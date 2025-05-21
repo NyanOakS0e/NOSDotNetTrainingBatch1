@@ -6,15 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace SQL_Services_Shared
 {
     public class DapperService
     {
         private readonly SqlConnectionStringBuilder _stringBuilder;
-        public DapperService(SqlConnectionStringBuilder connectionStringBuilder)
+        public DapperService(IConfiguration configuration)
         {
-            _stringBuilder = connectionStringBuilder;
+            var connectionString = configuration.GetConnectionString("DbConnect");
+
+            _stringBuilder = new SqlConnectionStringBuilder(connectionString);
         }
 
 

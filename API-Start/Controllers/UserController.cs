@@ -1,4 +1,5 @@
 ﻿using API_Start.Models;
+using API_Start.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -13,115 +14,85 @@ namespace API_Start.Controllers
     public class UserController : ControllerBase
     {
 
-        private readonly DapperService _dbs;
-        ApiDbContext _appDbContext;
+        public readonly UserService _userService;
 
-
-        public UserController()
+        public UserController(UserService userService)
         {
-            _dbs = new DapperService(new SqlConnectionStringBuilder()
-            {
-                DataSource = ".",
-                InitialCatalog = "NOSDotNetTrainingBatch1",
-                UserID = "sa",
-                Password = "sasa@123",
-                TrustServerCertificate = true,
-            });
-
-            _appDbContext = new ApiDbContext();
+            _userService = userService;
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public IActionResult GetUsers(int pageNo, int pageSize)
         {
-
-            var lst = _dbs.Query<UserModel>("SELECT * FROM dbo.Users");
-
+           var lst =  _userService.GetUsers(pageNo, pageSize);
+           
             return Ok(lst);
 
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetUsersById(int id)
+        {
+
+            var user = _userService.GetUserById(id);
+
+            if(!user.IsSuccess)
+            {
+                return NotFound(new
+                {
+                    Status = "failed",
+                    message = user.Message,
+                    StatusCode = "404",
+                });
+            }
+             return Ok(user);
+              
+        }
+
+
         [HttpPost]
         public IActionResult InsertUser([FromBody] UserModel user)
         {
-            var addedUser = _appDbContext.Users.Add(new UserModel()
-            {
-                Name = user.Name,
-                Email = user.Email
-            });
+            var model = _userService.InsertUser(user);
 
-            var lastAddedUser = new
-            {
-                id = user.Id, //id will be zero because it will be default value at this stage
-                name = user.Name,
-                email = user.Email,
-
-            };
-
-            int count = _appDbContext.SaveChanges();
-
-            object returnValue = new
-            {
-                Status = "success",
-                message = "Insert Successful",
-                effected_count = count,
-                data = lastAddedUser,
-                StatusCode = "200",
-            };
-
-            return Ok(returnValue);
+            return Ok(model);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserModel user)
         {
-            UserModel findedUser = _appDbContext.Users.FirstOrDefault(x => x.Id == id)!;
 
-            findedUser.Name = user.Name;
-            findedUser.Email = user.Email;
-
-            _appDbContext.SaveChanges();
-
-            var data = new
+            var model = _userService.UpdateUser(id, user);
+            if (!model.IsSuccess)
             {
-                Name = user.Name,
-                Email = user.Email,
-            };
+                return NotFound(new
+                {
+                    Status = "failed",
+                    message = model.Message,
+                    StatusCode = "404",
+                });
+            }
 
-            object returnValue = new
-            {
-                Status = "success",
-                message = "Update Successful",
-                data = data,
-                StatusCode = "200",
-            };
-
-            return Ok(returnValue);
+            return Ok(model);
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
-            var user = _appDbContext.Users.FirstOrDefault(x => x.Id == id);
-
-            _appDbContext.Users.Remove(user!);
-
-            _appDbContext.SaveChanges();
-
-            var deletedData = new
+            var model = _userService.DeleteUser(id);
+            if (!model.IsSuccess)
             {
-                ID = user.Id,
-                Name = user.Name,
-                Email = user.Email,
-            };
-            object returnValue = new
-            {
-                Status = "success",
-                message = "Delete Successful",
-                data = deletedData,
-                StatusCode = "200",
-            };
-            return Ok(returnValue);
+                return NotFound(new
+                {
+                    Status = "failed",
+                    message = model.Message,
+                    StatusCode = "404",
+                });
+            }
+
+            return Ok(model);
+
         }
+
     }
 }

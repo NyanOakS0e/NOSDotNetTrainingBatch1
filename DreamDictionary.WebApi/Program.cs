@@ -1,6 +1,6 @@
-using API_Start.Models;
-using API_Start.Services;
-using SQL_Services_Shared;
+using DreamDictionary.Database.Models;
+using DreamDictionary.WebApi.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,13 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<DapperService>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<ApiDbContext>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnect")));
+
+builder.Services.AddScoped<MigrationService>();
+builder.Services.AddScoped<BlogService>();
 
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -5,7 +5,7 @@ namespace API_Start.Models;
 
 public partial class UserModel
 {
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     public string? Name { get; set; }
 

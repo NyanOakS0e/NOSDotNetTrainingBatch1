@@ -1,0 +1,6 @@
+@NOS_DreamDictionary_WebAPI_HostAddress = http://localhost:5043
+
+GET {{NOS_DreamDictionary_WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

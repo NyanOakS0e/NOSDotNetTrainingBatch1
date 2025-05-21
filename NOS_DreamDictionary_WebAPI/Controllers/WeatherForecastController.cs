@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace API_Start.Controllers
+namespace NOS_DreamDictionary_WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
