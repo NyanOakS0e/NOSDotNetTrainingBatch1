@@ -1,0 +1,42 @@
+﻿
+@model List<WalletModel>
+
+<h1>Wallet Page (@Model.Count)</h1>
+
+<a class="btn btn-outline-success" href="/wallet/create">Create New Wallet</a>
+
+<a class="btn btn-outline-success" href="/transaction/history">Transaction History</a>
+
+<a class="btn btn-outline-success" href="/wallet/history">Wallet History</a>
+
+<a class="btn btn-outline-primary" href="/wallet/deposit">Deposit</a>
+
+<a class="btn btn-outline-primary" href="/wallet/withdraw">Withdraw</a>
+
+<a class="btn btn-outline-primary" href="/wallet/check-balance">Check Balance</a>
+
+
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th>Actions</th>
+
+            <th>User Name</th>
+            <th>Phone Number</th>
+            <th>Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>Actions</td>
+
+                <td>@item.WalletUserName</td>
+              
+                <td>@item.MobileNo</td>
+                <td>@item.Balance</td>
+            </tr>
+        }
+    </tbody>
+</table>

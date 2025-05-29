@@ -11,7 +11,7 @@ public partial class TblWalletHistory
 
     public string TransactionType { get; set; } = null!;
 
-    public decimal Amount { get; set; }
+    public decimal? Amount { get; set; }
 
     public DateTime DateTime { get; set; }
 }

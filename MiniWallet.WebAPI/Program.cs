@@ -3,6 +3,7 @@ using MiniWallet.Database.Models;
 using MiniWallet.Domain.Features;
 using MiniWallet.Domain.Features.CheckBalanceServices;
 using MiniWallet.Domain.Features.DepositServices;
+using MiniWallet.Domain.Features.TransferServices;
 using MiniWallet.Domain.Features.WalletServices;
 using MiniWallet.Domain.Features.WithDrawServices;
 
@@ -22,7 +23,7 @@ builder.Services.AddScoped<RegisterWalletService>();
 builder.Services.AddScoped<DepositService>();
 builder.Services.AddScoped<WithdrawService>();
 builder.Services.AddScoped<CheckBalanceService>();
-
+builder.Services.AddScoped<TransferService>();
 
 
 var app = builder.Build();
