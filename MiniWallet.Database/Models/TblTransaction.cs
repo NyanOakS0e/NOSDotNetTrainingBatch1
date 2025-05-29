@@ -13,7 +13,7 @@ public partial class TblTransaction
 
     public string ToMobileNo { get; set; } = null!;
 
-    public decimal Amount { get; set; }
+    public decimal? Amount { get; set; }
 
     public DateTime TransactionDate { get; set; }
 }

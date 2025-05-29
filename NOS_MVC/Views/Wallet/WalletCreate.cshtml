@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    bool isSuccess = Convert.ToBoolean(TempData["IsSuccess"] ?? false);
+    string message = Convert.ToString(TempData["Message"] ?? string.Empty);
+}
+
+
+
+<h1>Wallet Create</h1>
+
+@if(!string.IsNullOrEmpty(message))
+{
+<div id="divAlert" class="alert alert-@(isSuccess ? "success" : "warning")" role="alert">
+    @message
+</div>
+}
+
+<form class="row g-3" method="post" action="/Wallet/Create">
+
+  <div class="col-md-12">
+        <label for="WalletUserName" class="form-label">Username</label>
+        <input type="text" name="WalletUserName" class="form-control" id="WalletUserName" required>
+  </div>
+    <div class="col-md-12">
+        <label for="FullName" class="form-label">FullName</label>
+        <input type="text" name="FullName" class="form-control" id="FullName" required>
+    </div>
+
+  <div class="col-md-12">
+        <label for="MobileNo" class="form-label">Mobile Number</label>
+        <input type="text" name="MobileNo" class="form-control" id="MobileNo" required>
+  </div>
+
+  <div class="col-12">
+        <label for="Balance" class="form-label">Balance</label>
+        <input type="text" class="form-control" name="Balance" id="Balance" required>
+  </div>
+
+  <div>
+        <button type="button" class="btn btn-outline-warning">Cancel</button>
+        <button type="submit" class="btn btn-outline-success">Submit</button>
+  </div>
+
+</form>

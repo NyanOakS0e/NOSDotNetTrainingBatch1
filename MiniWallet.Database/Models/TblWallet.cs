@@ -13,5 +13,5 @@ public partial class TblWallet
 
     public string MobileNo { get; set; } = null!;
 
-    public decimal Balance { get; set; }
+    public decimal? Balance { get; set; }
 }
